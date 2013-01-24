@@ -4,11 +4,102 @@
     Description: Csss slideshow on any Wordpress page
     Author: Josh Kurz
     Version: 0.0.1
+*/ 
+
+/*
+* Extend WP_widget
+*  
+*
 */  
 
-function csss_init() {  
+class csssp_Widget extends WP_Widget {  
+  
+    public function __construct() {  
+        parent::__construct('csssp_Widget', 'CSSS Slideshow', array('description' => __('A CSSS Slideshow Widget', 'text_domain')));  
+    }  
+
+    public function form($instance) {  
+        if (isset($instance['title'])) {  
+            $title = $instance['title'];  
+        }  
+        else {  
+            $title = __('CSSS Slideshow', 'text_domain');  
+        }  
+        ?>  
+            <p>  
+                <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>  
+                <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />  
+            </p>  
+        <?php  
+    } 
+
+    public function update($new_instance, $old_instance) {  
+        $instance = array();  
+        $instance['title'] = strip_tags($new_instance['title']);  
+      
+        return $instance;  
+    } 
+
+    public function widget($args, $instance) {  
+        extract($args);  
+        // the title  
+        $title = apply_filters('widget_title', $instance['title']);  
+        echo $before_widget;  
+        if (!empty($title))  
+            echo $before_title . $title . $after_title;  
+        echo cssp_function('csssp_widget');  
+        echo $after_widget;  
+    } 
+} 
+
+function np_register_scripts() {  
+    if (!is_admin()) {  
+        // register  
+        //may need to include jQuery wp_register_script('wp_csss-script', plugins_url('js/slideshow.js', __FILE__), array( 'jquery' )); 
+        wp_register_script('csssp_script', plugins_url('js/slideshow.js', __FILE__));   
+        wp_register_script('csssp_script_preefix', plugins_url('js/preefixfree.min.js', __FILE__));   
+        wp_register_script('csssp_script_classList', plugins_url('js/classList.js', __FILE__));   
+
+        //register plugins
+        wp_register_script('csssp_plugin_highlights', plugins_url('js/plugins/code-highlights.js', __FILE__));  
+        wp_register_script('csssp_plugin_controls', plugins_url('js/plugins/css-controls.js', __FILE__)); 
+        wp_register_script('csssp_plugin_edit', plugins_url('js/plugins/css-edit.js', __FILE__)); 
+        wp_register_script('csssp_plugin_snippets', plugins_url('js/plugins/css-snippets.js', __FILE__)); 
+        wp_register_script('csssp_plugin_incrementable', plugins_url('js/plugins/incrementable.js', __FILE__)); 
+  
+        // enqueue  
+        wp_enqueue_script('csssp_script'); 
+        wp_enqueue_script('csssp_script_preefix');  
+        wp_enqueue_script('csssp_script_classList');   
+        wp_enqueue_script('csssp_plugin_highlights');  
+        wp_enqueue_script('csssp_plugin_controls'); 
+        wp_enqueue_script('csssp_plugin_edit'); 
+        wp_enqueue_script('csssp_plugin_snippets'); 
+        wp_enqueue_script('csssp_plugin_incrementable'); 
+    }  
+}  
+  
+function np_register_styles() {  
+    // register  
+    wp_register_style('csssp_styles_reusable', plugins_url('css/reusable.css', __FILE__)); 
+    wp_register_style('csssp_styles_slideshow', plugins_url('css/slideshow.css', __FILE__)); 
+    wp_register_style('csssp_styles_talk', plugins_url('css/talk.css', __FILE__));  
+    wp_register_style('csssp_styles_theme', plugins_url('css/theme.css', __FILE__));  
+  
+    // enqueue  
+    wp_enqueue_style('csssp_styles_reusable');  
+    wp_enqueue_style('csssp_styles_slideshow'); 
+    wp_enqueue_style('csssp_styles_talk');  
+    wp_enqueue_style('csssp_styles_theme');   
+} 
+
+function csssp_widgets_init() {  
+    register_widget('csssp_Widget');  
+} 
+
+function csssp_init() {  
     //add shorcode for cssp-shortcode
-    add_shortcode('cssp-shortcode', 'csssp_function');  
+    add_shortcode('csssp-shortcode', 'csssp_function');  
 
     $args = array(  
         'public' => true,  
@@ -20,53 +111,12 @@ function csss_init() {
             'excerpt'  
         )  
     );  
-    register_post_type('csss_slides', $args);  
-}  
+    register_post_type('csssp_slides', $args);  
+} 
 
-function np_register_scripts() {  
-    if (!is_admin()) {  
-        // register  
-        //may need to include jQuery wp_register_script('wp_csss-script', plugins_url('js/slideshow.js', __FILE__), array( 'jquery' )); 
-        wp_register_script('cssp_script', plugins_url('js/slideshow.js', __FILE__));   
-        wp_register_script('cssp_script_preefix', plugins_url('js/preefixfree.min.js', __FILE__));   
-        wp_register_script('cssp_script_classList', plugins_url('js/classList.js', __FILE__));   
-
-        //register plugins
-        wp_register_script('cssp_plugin_highlights', plugins_url('js/plugins/code-highlights.js', __FILE__));  
-        wp_register_script('cssp_plugin_controls', plugins_url('js/plugins/css-controls.js', __FILE__)); 
-        wp_register_script('cssp_plugin_edit', plugins_url('js/plugins/css-edit.js', __FILE__)); 
-        wp_register_script('cssp_plugin_snippets', plugins_url('js/plugins/css-snippets.js', __FILE__)); 
-        wp_register_script('cssp_plugin_incrementable', plugins_url('js/plugins/incrementable.js', __FILE__)); 
-  
-        // enqueue  
-        wp_enqueue_script('cssp_script'); 
-        wp_enqueue_script('cssp_script_preefix');  
-        wp_enqueue_script('cssp_script_classList');   
-        wp_enqueue_script('cssp_plugin_highlights');  
-        wp_enqueue_script('cssp_plugin_controls'); 
-        wp_enqueue_script('cssp_plugin_edit'); 
-        wp_enqueue_script('cssp_plugin_snippets'); 
-        wp_enqueue_script('cssp_plugin_incrementable'); 
-    }  
-}  
-  
-function np_register_styles() {  
-    // register  
-    wp_register_style('cssp_styles_reusable', plugins_url('css/reusable.css', __FILE__)); 
-    wp_register_style('cssp_styles_slideshow', plugins_url('css/slideshow.css', __FILE__)); 
-    wp_register_style('cssp_styles_talk', plugins_url('css/talk.css', __FILE__));  
-    wp_register_style('cssp_styles_theme', plugins_url('css/theme.css', __FILE__));  
-  
-    // enqueue  
-    wp_enqueue_style('cssp_styles_reusable');  
-    wp_enqueue_style('cssp_styles_slideshow'); 
-    wp_enqueue_style('cssp_styles_talk');  
-    wp_enqueue_style('cssp_styles_theme');   
-}
-
-function csssp_function($type='cssp_function') {  
+function csssp_function($type='csssp_function') {  
     $args = array(  
-        'post_type' => 'csss_slides',  
+        'post_type' => 'csssp_slides',  
         'posts_per_page' => 5  
     );  
     $result = '<!DOCTYPE html>';  
@@ -121,59 +171,10 @@ function csssp_function($type='cssp_function') {
     return $result;  
 } 
 
-/*
-* Initialize Widget 
-*  
-*
-*/
-function csssp_widgets_init() {  
-    register_widget('csssp_Widget');  
-}  
-
-class csssp_Widget extends WP_Widget {  
-  
-    public function __construct() {  
-        parent::__construct('csssp_Widget', 'CSSS Slideshow', array('description' => __('A CSSS Slideshow Widget', 'text_domain')));  
-    }  
-} 
-
-public function form($instance) {  
-    if (isset($instance['title'])) {  
-        $title = $instance['title'];  
-    }  
-    else {  
-        $title = __('CSSS Slideshow', 'text_domain');  
-    }  
-    ?>  
-        <p>  
-            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>  
-            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />  
-        </p>  
-    <?php  
-} 
-
-public function update($new_instance, $old_instance) {  
-    $instance = array();  
-    $instance['title'] = strip_tags($new_instance['title']);  
-  
-    return $instance;  
-} 
-
-public function widget($args, $instance) {  
-    extract($args);  
-    // the title  
-    $title = apply_filters('widget_title', $instance['title']);  
-    echo $before_widget;  
-    if (!empty($title))  
-        echo $before_title . $title . $after_title;  
-    echo cssp_function('csssp_widget');  
-    echo $after_widget;  
-} 
-
+//hooks
 add_theme_support( 'post-thumbnails' ); 
-
+add_action('init', 'csssp_init');
+add_action('widgets_init', 'cssp_widgets_init');  
 add_action('wp_print_scripts', 'np_register_scripts');  
 add_action('wp_print_styles', 'np_register_styles'); 
-add_action('widgets_init', 'cssp_widgets_init'); 
-add_action('init', 'csss_init'); 
 ?> 
