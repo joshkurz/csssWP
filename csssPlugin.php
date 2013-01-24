@@ -11,7 +11,6 @@
 *  
 *
 */  
-
 class csssp_Widget extends WP_Widget {  
   
     public function __construct() {  
@@ -170,11 +169,10 @@ function csssp_function($type='csssp_function') {
     $result .= '<script src="js/plugins/css-highlights.js"></script>';   
     return $result;  
 } 
-
 //hooks
 add_theme_support( 'post-thumbnails' ); 
 add_action('init', 'csssp_init');
 add_action('widgets_init', 'csssp_widgets_init');  
 add_action('wp_print_scripts', 'np_register_scripts');  
 add_action('wp_print_styles', 'np_register_styles'); 
-?> 
+?>
