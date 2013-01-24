@@ -47,7 +47,7 @@ class csssp_Widget extends WP_Widget {
         echo $before_widget;  
         if (!empty($title))  
             echo $before_title . $title . $after_title;  
-        echo cssp_function('csssp_widget');  
+        echo csssp_function('csssp_widget');  
         echo $after_widget;  
     } 
 } 
@@ -98,7 +98,7 @@ function csssp_widgets_init() {
 } 
 
 function csssp_init() {  
-    //add shorcode for cssp-shortcode
+    //add shorcode for csssp-shortcode
     add_shortcode('csssp-shortcode', 'csssp_function');  
 
     $args = array(  
@@ -174,7 +174,7 @@ function csssp_function($type='csssp_function') {
 //hooks
 add_theme_support( 'post-thumbnails' ); 
 add_action('init', 'csssp_init');
-add_action('widgets_init', 'cssp_widgets_init');  
+add_action('widgets_init', 'csssp_widgets_init');  
 add_action('wp_print_scripts', 'np_register_scripts');  
 add_action('wp_print_styles', 'np_register_styles'); 
 ?> 
