@@ -54,9 +54,9 @@ class csssp_Widget extends WP_Widget {
 function np_register_scripts() {  
     if (!is_admin()) {  
         // register  
-        //may need to include jQuery wp_register_script('wp_csss-script', plugins_url('js/slideshow.js', __FILE__), array( 'jquery' )); 
+        wp_register_script('csssp-jQuery', plugins_url('js/jQuery.js', __FILE__), array( 'jquery' )); 
         wp_register_script('csssp_script', plugins_url('js/slideshow.js', __FILE__));   
-        wp_register_script('csssp_script_preefix', plugins_url('js/preefixfree.min.js', __FILE__));   
+        //wp_register_script('csssp_script_preefix', plugins_url('js/preefixfree.min.js', __FILE__));   
         wp_register_script('csssp_script_classList', plugins_url('js/classList.js', __FILE__));   
 
         //register plugins
@@ -67,8 +67,9 @@ function np_register_scripts() {
         wp_register_script('csssp_plugin_incrementable', plugins_url('js/plugins/incrementable.js', __FILE__)); 
   
         // enqueue  
+        wp_enqueue_script('csssp_jQuery'); 
         wp_enqueue_script('csssp_script'); 
-        wp_enqueue_script('csssp_script_preefix');  
+        //wp_enqueue_script('csssp_script_preefix');  
         wp_enqueue_script('csssp_script_classList');   
         wp_enqueue_script('csssp_plugin_highlights');  
         wp_enqueue_script('csssp_plugin_controls'); 
@@ -118,55 +119,22 @@ function csssp_function($type='csssp_function') {
         'post_type' => 'csssp_slides',  
         'posts_per_page' => 5  
     );  
-    $result = '<!DOCTYPE html>';  
-    $result .= '<html>';  
-    $result .= '<head>'; 
-    $result .= '<meta charset="utf-8" />'; 
-    $result .= '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />'; 
-    $result .= '<title>Sample CSSS presentation</title>'; 
-    $result .= '<link href="css/slideshow.css" rel="stylesheet" />'; 
-    $result .= '<link href="css/talk.css" rel="stylesheet" />'; 
-    $result .= '<script src="js/prefixfree.min.js"></script>'; 
-    $result .= '</head>'; 
   
     //the loop  
     $loop = new WP_Query($args);
-    $numOfPosts = $loop->found_posts;  
+    $numOfPosts = $loop->found_posts; 
+    $result = '<div id="csssSlider">'; 
     while ($loop->have_posts()) { 
       $loop->the_post(); 
       $the_url = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), $type);
-
-      if($loop['index'] == 0){
-        $result .= '<header id="intro" class="slide">'; 
-        $result .= '<h1>Sample CSSS presentation</h1>'; 
-        $result .= '<img title="'.get_the_title().'" src="' . $the_url[0] . '" data-thumb="' . $the_url[0] . '" alt=""/>';
-        $result .= '<p class="attribution">By Lea Verou</p>'; 
-        $result .= '</header>'; 
-      }
-      else if($loop['index'] == $numOfPosts - 1){
-        $result .= '<footer class="slide">'; 
-        $result .= '<h2>Thank you!</h2>'; 
-        $result .= '<p>Closing remarks</p>';
-        $result .= '</footer>';  
-      }
-      else{
-          $result .= '<section>';
-          $result .= '<header class="slide">';
-          $result .= '<h1>Section title</h1>';
-          $result .= '</header>';  
-          $result .= '<section class="slide">';
-          $result .= '<img title="'.get_the_title().'" src="' . $the_url[0] . '" data-thumb="' . $the_url[0] . '" alt=""/>';
-          $result .= '</section>';
-          $result .= '</header>'; 
-          $result .= '</section>'; 
-
-      }  
+      
+      //build the slideshow document with wordpress 
+      $result .= the_content();
+      
     }  
-    $result .= '<script src="js/slideshow.js"></script>';  
-    $result .= '<script src="js/plugins/css-edit.js"></script>';  
-    $result .= '<script src="js/plugins/css-snippets.js"></script>'; 
-    $result .= '<script src="js/plugins/css-controls.js"></script>';   
-    $result .= '<script src="js/plugins/css-highlights.js"></script>';   
+    $result .= '<script>var slideshow = new SlideShow();</script>';  
+
+    $result .= '</div>';
     return $result;  
 } 
 //hooks

@@ -7,16 +7,16 @@
 /**
  * Make the environment a bit friendlier
  */
+
 function $(expr, con) { return (con || document).querySelector(expr); }
 function $$(expr, con) { return [].slice.call((con || document).querySelectorAll(expr)); }
 
 (function(head, body, html){
-
 // Check for classList support and include the polyfill if it's not supported
 if(!('classList' in body)) {
-	var thisScript = $('script[src$="slideshow.js"]'),
+	var thisScript = $('script[src$="js/slideshow.js"]'),
 	    script = document.createElement('script');
-	    script.src = thisScript.src.replace(/\bslideshow\.js/, 'classList.js');
+	    script.src = thisScript.src.replace(/\bslideshow\.js/, 'js/classList.js');
 	thisScript.parentNode.insertBefore(script, thisScript);
 }
 
@@ -25,7 +25,7 @@ var documentTitle = document.title + '';
 
 var self = window.SlideShow = function(slide) {
 	var me = this;
-	
+	console.log(me)
 	// Set instance
 	if(!window.slideshow) {
 		window.slideshow = this;
@@ -36,9 +36,12 @@ var self = window.SlideShow = function(slide) {
 	
 	// Current .delayed item in the slide
 	this.item = 0;
-	
+	//Set the body timer attribute from the plugins variable TODO
+	//body.setAttribute(attributename,attributevalue)
+
 	// Create timer, if needed
-	this.duration = body.getAttribute('data-duration');
+	//this.duration = body.getAttribute('data-duration');
+	this.duration = 10;
 	
 	if(this.duration > 0) {
 		var timer = document.createElement('div');
@@ -253,6 +256,7 @@ self.prototype = {
 		
 					switch(evt.keyCode) {
 						case 33: //page up
+						    alert('hello');
 							this.previous();
 							break;
 						case 34: //page down
@@ -271,6 +275,7 @@ self.prototype = {
 						case 32: // space
 						case 39: // ->
 						case 40: // down arrow
+						    alert('right')
 							this.next(evt.ctrlKey || evt.shiftKey);
 							break;
 					}
@@ -538,7 +543,7 @@ self.getSlide = function(element) {
 	return slide;
 }
 
-})(document.head || document.getElementsByTagName('head')[0], document.body, document.documentElement);
+})(document.head || document.getElementsByTagName('head')[0], document.documentElement, document.documentElement);
 
 // Rudimentary style[scoped] polyfill
 addEventListener('load', function(){ // no idea why the timeout is needed
@@ -559,3 +564,4 @@ addEventListener('load', function(){ // no idea why the timeout is needed
 		
 	});
 });
+
