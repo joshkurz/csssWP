@@ -1,24 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	<title>CSSS: A brief introduction</title>
-	
-	<link href="css/slideshow.css" rel="stylesheet" />
-	<link href="css/theme.css" rel="stylesheet" />
-	<link href="css/talk.css" rel="stylesheet" />
-	<script src="js/prefixfree.min.js"></script>
-</head>
-<body data-duration="10">
-
 <header id="intro" class="slide">
-	<h1>
-		<object data="img/logo.svg" width="100%" type="image/svg+xml">
-			<img src="img/logo.png" alt="CSSS: CSS-based SlideShow System" />
-		</object>
-	</h1>
-	<p class="attribution">By Lea Verou</p>
+        <div style="float: left; margin-top: 130px; margin-left: 130px;">
+	  <h4>CSSSWP: CSSS For Wordpress</h4>
+        </div>
+        <div style="">
+	  <p style="line-height: 1em;" class="attribution">By Josh Kurz</p>
+        </div>
 </header>
 <section>
 	<header class="slide">
@@ -28,6 +14,7 @@
 	<section class="slide" title="CSSS: Introduction">
 		<h2>What is it?</h2>
 		<p>A simple framework for building presentations with modern web standards</p>
+                <p style="color: blue;">All inside your best friend. Wordpress</p>
 		<ul>
 			<li class="delayed">An HTML file contains the whole presentation</li>
 			<li class="delayed">Themes as CSS files</li>
@@ -38,10 +25,9 @@
 	<section class="slide">
 		<h2>History</h2>
 		<ul>
-			<li class="delayed">I had to create a presentation for my talk at <a href="http://front-trends.com">Front Trends 2010</a></li>
-			<li class="delayed">The only web-based presentation systems I knew of didn't fit my needs</li>
+			<li class="delayed">Just Because Its cool</li>
+			<li class="delayed">CSSS was not integrated into Wordpress</li>
 			<li class="delayed">&hellip;so I rolled up my own</li>
-			<li class="delayed">FT2010 attendees asked me to release it</li>
 			<li class="delayed">and here it is! ;-)</li>
 		</ul>
 	</section>
@@ -54,10 +40,7 @@
 			<li>← or ↑ to go to the previous slide or incrementally displayed item</li>
 			<li>Ctrl* + → or Ctrl* + ↓ to jump to the next slide</li>
 			<li>Ctrl* + ← or Ctrl* + ↑ to jump to the previous slide</li>
-			<li>Home to go to the first slide, End to go to the last</li>
-			<li>Ctrl* + G to jump to an arbitrary slide (by slide number or identifier)</li>
 		</ul>
-		<p>* Ctrl or Shift actually. Only Shift works in Opera.</p>
 	</section>
 </section>
 
@@ -75,9 +58,7 @@
 	<section class="slide">
 		<h2>Timer</h2>
 		<ul>
-			<li>Timer in the form of a progress bar on the top</li>
-			<li>Define the talk duration with the attribute <code>data-duration</code> on the <code>body</code></li>
-			<li>Style the timer and the end state with the selectors <code>#timer</code> and <code>#timer.end</code> respectively.</li>
+			<li>I took out the timer of now. It will go back in.</li>
 		</ul>
 	</section>
 	
@@ -132,7 +113,7 @@
 	</header>
 	
 	<section class="slide">
-		<h2>Plugin: CSS Snippets</h2>
+		<h2>Plugin: CSS + Angular Snippets</h2>
 		<pre>new CSSSnippet(document.getElementById('snippet'));</pre>
 		<ul>
 			<li>Dynamically edit CSS and reflect the results in any element's style
@@ -147,59 +128,7 @@
 			<li>Textarea automatically adjusts rows/font-size on line break (use class <code>dont-adjust</code> to turn off)</li>
 		</ul>
 	</section>
-	
-	<section class="slide">
-		<h2>CSS Snippets demo</h2>
-		<p>Edit the following CSS code:</p>
-		<textarea class="snippet">background-color:red;
-background-image: linear-gradient(red, #600)</textarea>
-	</section>
-	
-	<section class="slide" id="animation-demo">
-		<h2>CSS Snippets: raw CSS</h2>
-		<textarea class="snippet" data-raw>@keyframes rainbow {
-	from, to { background: red }
-	16% { background: yellow }
-	33% { background: green }
-	50% { background: aqua }
-	66% { background: blue }
-	83% { background: fuchsia }
-}
 
-#animation-demo { animation: 30s rainbow infinite; }</textarea>
-	</section>
-	
-	<section class="slide">
-		<h2>Plugin: CSS Controls</h2>
-		<ul>
-			<li>Use sliders and other controls to adjust CSS values
-				<ul>
-					<li>Which one? Specify a selector with the <code>data-subject</code> attribute or leave blank for the slide to be the subject</li>
-					<li>Specify style with <code>data-style</code> (use <code>{value}</code> where the result will be)</li>
-				</ul>
-			<li>Automatically prefixes CSS3 properties/values, when needed</li>
-		</ul>
-	</section>
-	
-	<section class="slide" id="css-controls-demo">
-		<h2>CSS Controls demo</h2>
-		<label>Slide lightness: 
-			<input type="range" min="0" max="255" value="128" data-style="background-color:rgb({value}, {value}, {value});" class="css-control" />
-		</label>
-		<label>
-			border-width:
-			<input type="number" min="0" max="60" value="30" data-style="border-width: {value}px;" class="css-control" size="5" />
-		</label>
-		<label>
-			font-family:
-			<select data-style="font-family: {value};" class="css-control">
-				<option selected>sans-serif</option>
-				<option>Georgia, serif</option>
-				<option>Consolas, monospace</option>
-				<option>'Trebuchet MS', sans-serif</option>
-			</select>
-		</label>
-	</section>
 	
 	<section class="slide">
 		<h2>Plugin: Code highlight</h2>
@@ -225,33 +154,9 @@ document.addEventListener('DOMAttrModified',function(e) {
 </section>
 <footer class="slide" title="The End">
 	<h2>Thank you!</h2>
-	<p>Get it or contribute at <a href="http://github.com/LeaVerou/CSSS">http://github.com/LeaVerou/CSSS</a></p>
+	<p>Get it or contribute <a href="https://github.com/joshkurz/csssWP">@github</a></p>
 	<p>Credits:</p>
 	<ul>
-		<li><a href="http://lukeroberts.us/2008/12/wallpaper-colourful-wood/">Colored wood background by Luke Roberts</a></li>
-		<li>The name CSSS is actually inspired by S5, as you could probably guess ;-)</li>
-		<li>A big thanks to the community at Github for various contributions to this project</li>
+		<li>LeaVerou</li>
 	</ul>
 </footer>
-
-<script src="js/slideshow.js"></script>
-<script src="js/plugins/css-edit.js"></script>
-<script src="js/plugins/css-snippets.js"></script>
-<script src="js/plugins/css-controls.js"></script>
-<script src="js/plugins/code-highlight.js"></script>
-<script>
-var slideshow = new SlideShow();
-
-var snippets = document.querySelectorAll('.snippet');
-for(var i=0; i<snippets.length; i++) {
-	new CSSSnippet(snippets[i]);
-}
-
-var cssControls = document.querySelectorAll('.css-control');
-for(var i=0; i<cssControls.length; i++) {
-	new CSSControl(cssControls[i]);
-}
-</script>
-	
-</body>
-</html>

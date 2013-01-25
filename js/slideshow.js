@@ -1,7 +1,8 @@
 /**
  * CSSS javascript code
  * @author Lea Verou (http://leaverou.me)
- * @version 2.0
+ *         Josh Kurz
+ * @version 2.1  Wordpress Version
  */
  
 /**
@@ -41,7 +42,7 @@ var self = window.SlideShow = function(slide) {
 
 	// Create timer, if needed
 	//this.duration = body.getAttribute('data-duration');
-	this.duration = 10;
+	this.duration = 0;
 	
 	if(this.duration > 0) {
 		var timer = document.createElement('div');
@@ -196,11 +197,12 @@ var self = window.SlideShow = function(slide) {
 	});
 };
 
+var presentorOn = 0;
 self.prototype = {
 	handleEvent: function(evt) {
 		var me = this;
-		
 		switch(evt.type) {
+
 			/**
 				Keyboard navigation
 				Ctrl+G : Go to slide...
@@ -215,9 +217,9 @@ self.prototype = {
 							var slide = prompt('Which slide?');
 							me.goto(+slide? slide - 1 : slide);
 							break;
-						case 72: // H
-						    me.overview(evt);
-							break;
+						// case 72: // H
+						//    me.overview(evt);
+						//	break;
 						case 74: // J
 							if(body.classList.contains('hide-elements')) {
 								body.classList.remove('hide-elements');
@@ -228,13 +230,20 @@ self.prototype = {
 							break;
 						case 80: // P
 							// Open new window for attendee view
-							this.projector = open(location, 'projector');
+							//this.projector = open(location, 'projector');
 		
 							// Get the focus back
-							window.focus();
+							//window.focus();
 							
 							// Switch this one to presenter view
-							body.classList.add('presenter');
+							if(presentorOn === 0){
+                              body.classList.add('presenter');
+                              presentorOn = 1;
+							}
+							else{
+							  body.classList.remove('presenter');
+							  presentorOn = 0;
+							}
 					}
 				}
 				break;
@@ -249,14 +258,13 @@ self.prototype = {
 					Ctrl + Down/Left arrow : Previous slide 
 					(Shift instead of Ctrl works too)
 				*/
-				if(evt.target === body || evt.target === body.parentNode || evt.metaKey && evt.altKey) {
+				//if(evt.target.localName === body || evt.target === body.parentNode || evt.metaKey && evt.altKey) {
 					if(evt.keyCode >= 32 && evt.keyCode <= 40) {
 						evt.preventDefault();
 					}
 		
 					switch(evt.keyCode) {
 						case 33: //page up
-						    alert('hello');
 							this.previous();
 							break;
 						case 34: //page down
@@ -275,11 +283,10 @@ self.prototype = {
 						case 32: // space
 						case 39: // ->
 						case 40: // down arrow
-						    alert('right')
 							this.next(evt.ctrlKey || evt.shiftKey);
 							break;
 					}
-				}
+				//}
 				break;
 			case 'load':
 			case 'resize':

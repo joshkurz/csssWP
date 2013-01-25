@@ -3,7 +3,7 @@
     Plugin Name: Csss
     Description: Csss slideshow on any Wordpress page
     Author: Josh Kurz
-    Version: 0.0.1
+    Version: 0.1.0
 */ 
 
 /*
@@ -55,8 +55,7 @@ function np_register_scripts() {
     if (!is_admin()) {  
         // register  
         wp_register_script('csssp-jQuery', plugins_url('js/jQuery.js', __FILE__), array( 'jquery' )); 
-        wp_register_script('csssp_script', plugins_url('js/slideshow.js', __FILE__));   
-        //wp_register_script('csssp_script_preefix', plugins_url('js/preefixfree.min.js', __FILE__));   
+        wp_register_script('csssp_script', plugins_url('js/slideshow.js', __FILE__));    
         wp_register_script('csssp_script_classList', plugins_url('js/classList.js', __FILE__));   
 
         //register plugins
@@ -65,17 +64,18 @@ function np_register_scripts() {
         wp_register_script('csssp_plugin_edit', plugins_url('js/plugins/css-edit.js', __FILE__)); 
         wp_register_script('csssp_plugin_snippets', plugins_url('js/plugins/css-snippets.js', __FILE__)); 
         wp_register_script('csssp_plugin_incrementable', plugins_url('js/plugins/incrementable.js', __FILE__)); 
+        wp_register_script('csssp_script_angular', plugins_url('js/angular.js', __FILE__));  
   
         // enqueue  
         wp_enqueue_script('csssp_jQuery'); 
         wp_enqueue_script('csssp_script'); 
-        //wp_enqueue_script('csssp_script_preefix');  
         wp_enqueue_script('csssp_script_classList');   
         wp_enqueue_script('csssp_plugin_highlights');  
         wp_enqueue_script('csssp_plugin_controls'); 
         wp_enqueue_script('csssp_plugin_edit'); 
         wp_enqueue_script('csssp_plugin_snippets'); 
         wp_enqueue_script('csssp_plugin_incrementable'); 
+        wp_enqueue_script('csssp_script_angular');  
     }  
 }  
   
