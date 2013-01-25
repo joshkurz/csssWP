@@ -3,9 +3,11 @@
 
 ####Shortcode
 make the div the height that you want it inside your page.
-[<div style="height: 500px;">
+```html
+<div style="height: 500px;">
   [csssp-shortcode]
-</div>]
+</div>
+```
 
 ####Widget
 Use on any widget section and have a full page CSSS SlideShow
