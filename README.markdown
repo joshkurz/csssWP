@@ -13,10 +13,10 @@ make the div the height that you want it inside your page.
 Use on any widget section and have a full page CSSS SlideShow
 
 ####TODO's
-Get to work in all themes. (Currenty only tested in Purevision)
-Get to work on mobile swipes.
-Get to include ID's as parameters inside the shortcode.
-Create choices for slide sizes or fullscreen mode
+1. Get to work in all themes. (Currenty only tested in Purevision)
+2. Get to work on mobile swipes.
+3. Get to include ID's as parameters inside the shortcode.
+4. Create choices for slide sizes or fullscreen mode
 
 
 Warning: Only works in latest Firefox, Opera, Safari or Chrome.
