@@ -3,7 +3,7 @@
     Plugin Name: Csss
     Description: Csss slideshow on any Wordpress page
     Author: Josh Kurz
-    Version: 0.1.0
+    Version: 0.1.2
 */ 
 
 /*
@@ -22,7 +22,7 @@ class csssp_Widget extends WP_Widget {
             $title = $instance['title'];  
         }  
         else {  
-            $title = __('CSSS Slideshow', 'text_domain');  
+            $title = __('training', 'text_domain');  
         }  
         ?>  
             <p>  
@@ -55,7 +55,8 @@ function np_register_scripts() {
     if (!is_admin()) {  
         // register  
         wp_register_script('csssp-jQuery', plugins_url('js/jQuery.js', __FILE__), array( 'jquery' )); 
-        wp_register_script('csssp_script', plugins_url('js/slideshow.js', __FILE__));    
+        wp_register_script('csssp_script', plugins_url('js/slideshow.js', __FILE__));   
+        //wp_register_script('csssp_script_preefix', plugins_url('js/preefixfree.min.js', __FILE__));   
         wp_register_script('csssp_script_classList', plugins_url('js/classList.js', __FILE__));   
 
         //register plugins
@@ -64,7 +65,7 @@ function np_register_scripts() {
         wp_register_script('csssp_plugin_edit', plugins_url('js/plugins/css-edit.js', __FILE__)); 
         wp_register_script('csssp_plugin_snippets', plugins_url('js/plugins/css-snippets.js', __FILE__)); 
         wp_register_script('csssp_plugin_incrementable', plugins_url('js/plugins/incrementable.js', __FILE__)); 
-        wp_register_script('csssp_script_angular', plugins_url('js/angular.js', __FILE__));  
+        wp_register_script('csssp_script_angular', plugins_url('js/plugins/angular.js', __FILE__));  
   
         // enqueue  
         wp_enqueue_script('csssp_jQuery'); 
@@ -75,7 +76,7 @@ function np_register_scripts() {
         wp_enqueue_script('csssp_plugin_edit'); 
         wp_enqueue_script('csssp_plugin_snippets'); 
         wp_enqueue_script('csssp_plugin_incrementable'); 
-        wp_enqueue_script('csssp_script_angular');  
+        wp_enqueue_script('csssp_script_angular'); 
     }  
 }  
   
@@ -98,6 +99,7 @@ function csssp_widgets_init() {
 } 
 
 function csssp_init() {  
+
     //add shorcode for csssp-shortcode
     add_shortcode('csssp-shortcode', 'csssp_function');  
 
@@ -108,39 +110,48 @@ function csssp_init() {
             'title',  
             'thumbnail',
             'editor',
-            'excerpt'  
+            'excerpt',
+            'ID'  
         )  
     );  
     register_post_type('csssp_slides', $args);  
 } 
 
-function csssp_function($type='csssp_function') {  
-    $args = array(  
-        'post_type' => 'csssp_slides',  
-        'posts_per_page' => 5  
-    );  
-  
-    //the loop  
-    $loop = new WP_Query($args);
-    $numOfPosts = $loop->found_posts; 
+function csssp_function($atts) { 
+    
+    //extract the shortcode params
+    extract(shortcode_atts(array(
+        'id' => ''
+    ), $atts));
+    //the post  
+    $post = get_post($id);
     $result = '<div id="csssSlider">'; 
-    while ($loop->have_posts()) { 
-      $loop->the_post(); 
-      $the_url = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), $type);
-      
-      //build the slideshow document with wordpress 
-      $result .= the_content();
-      
-    }  
-    $result .= '<script>var slideshow = new SlideShow();</script>';  
-
+    $result .= $post->post_content; 
+    $result .= '<script>setTimeout( function(){ var slideshow = new SlideShow(); },400)</script>';  
     $result .= '</div>';
     return $result;  
 } 
+
+function modify_post_table( $column ) {
+    $column['ID'] = 'ID';
+ 
+    return $column;
+}
+
+function pA_manage_posts_custom_column($column, $post_id) {
+    switch ($column) {
+        case 'post_author':
+            $pA_val = $post_id;
+            break;
+    }
+}
+
 //hooks
 add_theme_support( 'post-thumbnails' ); 
 add_action('init', 'csssp_init');
-add_action('widgets_init', 'csssp_widgets_init');  
+//add_action('widgets_init', 'csssp_widgets_init');  
 add_action('wp_print_scripts', 'np_register_scripts');  
 add_action('wp_print_styles', 'np_register_styles'); 
+add_filter( 'manage_posts_columns', 'modify_post_table' );
+add_action('manage_posts_custom_column', 'pA_manage_posts_custom_column', 10, 2);
 ?>
