@@ -5,6 +5,7 @@
 Make the div the height that you want the slideshow to be inside your page or post.
 #####Parameters
 1. id - the of your post to call. This will show up in the csss pages admin tab.
+
 ```html
 <div style="height: 500px;">
   [csssp-shortcode id="postID"]
