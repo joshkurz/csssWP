@@ -133,17 +133,18 @@ function csssp_function($atts) {
 } 
 
 function modify_post_table( $column ) {
-    $column['ID'] = 'ID';
+    $column['id'] = 'ID';
  
     return $column;
 }
 
-function pA_manage_posts_custom_column($column, $post_id) {
-    switch ($column) {
-        case 'post_author':
-            $pA_val = $post_id;
+function pA_manage_posts_custom_column($column_name, $id) {
+
+    switch ($column_name) {
+    case 'id':
+        echo $id;
             break;
-    }
+    } // end switch
 }
 
 //hooks
