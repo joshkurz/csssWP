@@ -1,14 +1,15 @@
 /**
  * CSSS javascript code
- * @author Lea Verou (http://leaverou.me)
- * @version 2.0
+ * @author Lea Vero
+ *         Josh Kurz
+ * @version 2.1
  */
  
 /**
  * Make the environment a bit friendlier
  */
 
-setTimeout(function(){
+jQuery(document).ready(function(){
 
 function $(expr, con) { return (con || document).querySelector(expr); }
 function $$(expr, con) { return [].slice.call((con || document).querySelectorAll(expr)); }
@@ -16,20 +17,20 @@ function $$(expr, con) { return [].slice.call((con || document).querySelectorAll
 (function(head, body, html){
 
 // Check for classList support and include the polyfill if it's not supported
-if(!('classList' in body)) {
+/*if(!('classList' in body)) {
 	var thisScript = $('script[src$="js/slideshow.js"]'),
 	    script = document.createElement('script');
 	    script.src = thisScript.src.replace(/\bslideshow\.js/, 'js/classList.js');
 	thisScript.parentNode.insertBefore(script, thisScript);
-}
+}*/
 
 // Cache <title> element, we may need it for slides that don't have titles
 var documentTitle = document.title + '';
 
 var self = window.SlideShow = function(slide) {
-location.hash = "intro";
+//location.hash = "intro";
+
 	var me = this;
-	console.log(me)
 	// Set instance
 	if(!window.slideshow) {
 		window.slideshow = this;
@@ -37,17 +38,18 @@ location.hash = "intro";
 	
 	// Current slide
 	this.index = this.slide = slide || 0;
-	
+	console.log(this.slide)
+        console.log('ofortuna')
 	// Current .delayed item in the slide
-	this.item = 0;
+	this.item = this.index;
 	//Set the body timer attribute from the plugins variable TODO
 	//body.setAttribute(attributename,attributevalue)
 
 	// Create timer, if needed
 	//this.duration = body.getAttribute('data-duration');
-	this.duration = 0;
+	//this.duration = 0;
 	
-	if(this.duration > 0) {
+	/*if(this.duration > 0) {
 		var timer = document.createElement('div');
 		    
 		timer.id = 'timer';
@@ -61,7 +63,7 @@ location.hash = "intro";
 				timer.classList.add('overtime');
 			}, me.duration * 60000);
 		});
-	}
+	}*/
 	
 	// Create slide indicator
 	this.indicator = document.createElement('div');
@@ -71,7 +73,7 @@ location.hash = "intro";
 	
 	// Get the slide elements into an array
 	this.slides = $$('.slide', body);
-
+        console.log(this.slides);
 	// Get the overview
 	this.overview = function(evt) {
         if(body.classList.contains('show-thumbnails')) {
@@ -405,14 +407,15 @@ self.prototype = {
 	*/
 	goto: function(which) {
 		var slide;
-		
+
 		// We have to remove it to prevent multiple calls to goto messing up
 		// our current item (and there's no point either, so we save on performance)
 		window.removeEventListener('hashchange', this, false);
 		
 		var id;
-		
+		//'#' + slide.id === location.hash
 		if(which + 0 === which && which in this.slides) { 
+
 			// Argument is a valid slide number
 			this.index = which;
 			this.slide = this.order[which]
@@ -423,11 +426,12 @@ self.prototype = {
 		}
 		else if(which + '' === which) { // Argument is a slide id
 			slide = this.getSlideById(which);
-			
+			console.log(slide)
 			if(slide) {
 				this.slide = this.index = +slide.getAttribute('data-index');
 				location.hash = '#' + which;	
 			}
+                        this.goto(this.index)
 		}
 		
 		if(slide) { // Slide actually changed, perform any other tasks needed
@@ -550,7 +554,6 @@ self.prototype = {
 	// Is the element on the current slide?
 	onCurrent: function(element) {
 		var slide = self.getSlide(element);
-		
 		if(slide) {
 			return '#' + slide.id === location.hash;
 		}
@@ -595,4 +598,4 @@ addEventListener('load', function(){ // no idea why the timeout is needed
 		
 	});
 });
-},200);
+});

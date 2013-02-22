@@ -19,4 +19,4 @@ Make the div the height that you want the slideshow to be inside the page or pos
 
 
 Warning: Only works in latest Firefox, Opera, Safari or Chrome.
-For more information, see the [sample slideshow](http://counterintuitive.dillingermediaonline.com/csss-slideshow) 
+For more information, see the [sample slideshow](http://counterintuitive.dillingermediaonline.com/training) 

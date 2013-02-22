@@ -55,7 +55,8 @@ function np_register_scripts() {
     if (!is_admin()) {  
         // register  
         wp_register_script('csssp-jQuery', plugins_url('js/jQuery.js', __FILE__), array( 'jquery' )); 
-        wp_register_script('csssp_script', plugins_url('js/slideshow.js', __FILE__));   
+        //wp_register_script('csssp_script_angular', plugins_url('js/plugins/angular.js', __FILE__),  array( 'jquery' ));  
+        wp_register_script('csssp_script', plugins_url('js/slideshow.js', __FILE__), array( 'jquery' ));   
         //wp_register_script('csssp_script_preefix', plugins_url('js/preefixfree.min.js', __FILE__));   
         wp_register_script('csssp_script_classList', plugins_url('js/classList.js', __FILE__));   
 
@@ -65,10 +66,10 @@ function np_register_scripts() {
         wp_register_script('csssp_plugin_edit', plugins_url('js/plugins/css-edit.js', __FILE__)); 
         wp_register_script('csssp_plugin_snippets', plugins_url('js/plugins/css-snippets.js', __FILE__)); 
         wp_register_script('csssp_plugin_incrementable', plugins_url('js/plugins/incrementable.js', __FILE__)); 
-        wp_register_script('csssp_script_angular', plugins_url('js/plugins/angular.js', __FILE__));  
   
         // enqueue  
         wp_enqueue_script('csssp_jQuery'); 
+        //wp_enqueue_script('csssp_script_angular'); 
         wp_enqueue_script('csssp_script'); 
         wp_enqueue_script('csssp_script_classList');   
         wp_enqueue_script('csssp_plugin_highlights');  
@@ -76,7 +77,6 @@ function np_register_scripts() {
         wp_enqueue_script('csssp_plugin_edit'); 
         wp_enqueue_script('csssp_plugin_snippets'); 
         wp_enqueue_script('csssp_plugin_incrementable'); 
-        wp_enqueue_script('csssp_script_angular'); 
     }  
 }  
   
@@ -127,7 +127,7 @@ function csssp_function($atts) {
     $post = get_post($id);
     $result = '<div id="csssSlider">'; 
     $result .= $post->post_content; 
-    $result .= '<script>setTimeout( function(){ var slideshow = new SlideShow(); },400)</script>';  
+    $result .= '<script>jQuery(document).ready( function(){ var slideshow = new SlideShow(); })</script>';  
     $result .= '</div>';
     return $result;  
 } 
