@@ -13,10 +13,10 @@ Make the div the height that you want the slideshow to be inside the page or pos
 ```
 
 ####TODO's
-1. Get to work in all themes. (Currenty only tested in Purevision)
+1. Get to work in all HTML 5 themes. (Currenty only tested in Purevision)
 2. Get to work on mobile swipes.
 4. Create choices for slide sizes or fullscreen mode as a parameter
 
 
-Warning: Only works in latest Firefox, Opera, Safari or Chrome.
+Warning: Only works in latest Firefox, Opera, Safari, Chrome, and (HTML 5 Themes).
 For more information, see the [sample slideshow](http://counterintuitive.dillingermediaonline.com/training) 
